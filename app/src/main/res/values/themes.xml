@@ -4,6 +4,14 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <style name="CustomRadioDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <!-- Màu nút Radio khi ĐÃ chọn -->
+        <item name="colorControlActivated">#FF9800</item>
 
+        <!-- Màu viền nút Radio khi CHƯA chọn -->
+        <item name="colorControlNormal">#FF9800</item>
+        <item name="colorControlHighlight">#FF9800</item>
+        <item name="colorPrimary">#FF9800</item>
+    </style>
     <style name="Theme.Tuan9" parent="Base.Theme.Tuan9" />
 </resources>

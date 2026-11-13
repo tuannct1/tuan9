@@ -6,7 +6,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".bai1.MainActivity"
+    android:background="#C7C7C7">
     <Toolbar
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
@@ -15,21 +16,42 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="#4CAF50"
+        android:background="#FFC107"
         android:titleTextColor="#FFFFFF"
         />
     <ImageButton
         android:id="@+id/btnFilter"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintTop_toBottomOf="@+id/toolBar"
         app:layout_constraintEnd_toEndOf="@+id/toolBar"
         android:src="@drawable/filter_list_svgrepo_com"
-        android:background="?attr/selectableItemBackground"/>
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginEnd="16dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/toolBar"
+        app:layout_constraintTop_toBottomOf="@+id/btnFilter" />
+
+    <ImageView
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/btnFilter"
-        app:layout_constraintStart_toStartOf="@+id/toolBar"/>
+        android:src="@drawable/add_circle_svgrepo_com"
+        android:foreground="@drawable/ripple_circle"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.948"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.912" />
 </androidx.constraintlayout.widget.ConstraintLayout>
