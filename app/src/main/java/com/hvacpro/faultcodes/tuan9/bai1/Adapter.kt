@@ -52,5 +52,4 @@ class Adapter(private val list: MutableList<Note>,
         holder.content.text = note.content
         holder.date.text = Note.formatDate(note.date)
     }
-
 }
