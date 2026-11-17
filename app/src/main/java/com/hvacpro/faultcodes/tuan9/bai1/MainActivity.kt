@@ -1,44 +1,35 @@
 package com.hvacpro.faultcodes.tuan9.bai1
 
-import android.app.appfunctions.RegisterAppFunctionRequest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room3.Room
+import androidx.sqlite.driver.AndroidSQLiteDriver
 import com.hvacpro.faultcodes.tuan9.R
 import com.hvacpro.faultcodes.tuan9.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class MainActivity : AppCompatActivity() {
-    val ds = mutableListOf(
-        Note("Họp nhóm", "Họp với nhóm dự án lúc 9h sáng, chuẩn bị báo cáo tiến độ tuần 8.", "12/11/2026"),
-        Note("Danh sách mua sắm", "Sữa, trứng, bánh mì, rau xà lách, cà chua và trái cây.", "11/11/2026"),
-        Note("Bài tập Android", "Hoàn thành bài RecyclerView với MaterialCardView và ViewBinding.", "11/11/2026"),
-        Note("Lịch khám răng", "Hẹn khám lúc 14h thứ Sáu tuần sau, nhớ mang theo thẻ bảo hiểm.", "10/11/2026"),
-        Note("Ý tưởng ứng dụng", "App quét file trên thẻ SD, có lọc theo loại và tạm dừng khi đang quét.", "09/11/2026"),
-        Note("Sinh nhật mẹ", "Đặt bánh kem trước 2 ngày và chọn quà tặng.", "08/11/2026"),
-        Note("Sách cần đọc", "Clean Code, Kotlin in Action, Designing Data-Intensive Applications.", "07/11/2026"),
-        Note("Đóng tiền internet", "Hạn đóng cuối tháng, thanh toán qua ứng dụng ngân hàng.", "05/11/2026"),
-        Note("Lịch tập gym", "Thứ Hai: ngực và tay. Thứ Tư: lưng và vai. Thứ Sáu: chân.", "03/11/2026")
+class MainActivity : AppCompatActivity(), Filter {
+    var list  = mutableListOf<Note>()
+    private lateinit var adapter: Adapter
 
-    )
-    private lateinit var adapter : Adapter
-    private val launcher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        val note = result.data?.let {
-            IntentCompat.getParcelableExtra(it, "note", Note::class.java)
-        }
-        if (note != null) {
-            adapter.add(note)
-        }
-    }
+    private lateinit var noteDao : NoteDao
     private lateinit var binding: ActivityMainBinding
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -49,16 +40,113 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        adapter = Adapter(ds)
+        //Tạo database
+        val db = Room.databaseBuilder<AppDatabase>(this, "noteDatabase")
+            .setDriver(AndroidSQLiteDriver())
+            .build()
+        noteDao = db.noteDao()
+        //Tạo list
+        lifecycleScope.launch {
+            val data = withContext(Dispatchers.IO){
+                noteDao.getAllNote()
+            }
+            list.addAll(data)
+            adapter.notifyDataSetChanged()
+        }
+        //Tạo adapter
+        adapter = Adapter(list, ::update, ::delete)
+        //Set layout cho rcv
         binding.recycleView.layoutManager = LinearLayoutManager(this)
         binding.recycleView.adapter = adapter
+        //Tạo filter
+        val dialog = MenuDialogFragment()
         binding.btnFilter.setOnClickListener {
-            val dialog = MenuDialogFragment()
             dialog.show(supportFragmentManager, "MenuDialog")
         }
+        //Xử lý nút add
         binding.btnAdd.setOnClickListener {
             val intent = Intent(this, AddNoteActivity::class.java)
             launcher.launch(intent)
         }
+    }
+
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val note = result.data?.let { IntentCompat.getParcelableExtra(it, "newNote", Note::class.java) }
+        lifecycleScope.launch {
+            val id = withContext(Dispatchers.IO) {
+                if(note != null){
+                    noteDao.insert(note)
+                }
+                else{
+                    -1L
+                }
+            }
+            if(id != -1L){
+                list.add(0, note!!.copy(id = id.toInt()))
+                adapter.notifyItemInserted(0)
+                binding.recycleView.scrollToPosition(0)
+            }
+        }
+        }
+    private val updateLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val note = result.data?.let {
+            IntentCompat.getParcelableExtra(it, "noteUpdate", Note::class.java)
+        }
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                if(note != null){
+                    noteDao.update(note)
+                }
+            }
+            if(note != null){
+                val pos = list.indexOfFirst { it.id == note.id }
+                if (pos != -1 ) {
+                    list[pos] = note
+                    adapter.notifyItemChanged(pos)
+                }
+            }
+        }
+    }
+
+    fun update(note: Note) {
+        val intent = Intent(this, AddNoteActivity::class.java)
+        intent.putExtra("note", note)
+        updateLauncher.launch(intent)
+    }
+
+    fun delete(note: Note, view: View) {
+        val popup = PopupMenu(this, view)
+        popup.menuInflater.inflate(R.menu.delete, popup.menu)
+        popup.setOnMenuItemClickListener {
+            if (it.itemId == R.id.itemDelete) {
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) { noteDao.delete(note) }
+                    val pos = list.indexOfFirst { a -> a.id == note.id }
+                    if (pos != -1) {
+                        list.removeAt(pos)
+                        adapter.notifyItemRemoved(pos)
+                    }
+                }
+            }
+            true
+        }
+        popup.show()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun ok(option : Int) {
+        when(option){
+            0-> list.sortBy { it.date }
+            1-> list.sortByDescending { it.date }
+            2-> list.sortBy { it.id }
+            3-> list.sortByDescending { it.id }
+            4-> list.sortBy { it.title.lowercase() }
+            5-> list.sortByDescending { it.title.lowercase() }
+        }
+        adapter.notifyDataSetChanged()
     }
 }

@@ -1,6 +1,7 @@
 package com.hvacpro.faultcodes.tuan9.bai1
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
@@ -10,6 +11,13 @@ import androidx.fragment.app.DialogFragment
 import com.hvacpro.faultcodes.tuan9.R
 
 class MenuDialogFragment : DialogFragment() {
+    private lateinit var listener: Filter
+    var selectedOption = 0
+    @Override
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as Filter
+    }
     val options = arrayOf("Modification time (Newest first)",
         "Modification time (Oldest first)",
         "Creation time(Newest first)",
@@ -22,10 +30,10 @@ class MenuDialogFragment : DialogFragment() {
             builder
                 .setTitle("Sort by")
                 .setSingleChoiceItems(
-                    options, 0
-                ) { dialog, which -> }
-                .setPositiveButton("OK") { dialog, which -> }
-                .setNegativeButton("Cancel") { dialog, which -> }
+                    options, selectedOption
+                ) { _, which -> selectedOption = which}
+                .setPositiveButton("OK") { _, _ -> listener.ok(selectedOption)}
+                .setNegativeButton("Cancel") { _, _ -> }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

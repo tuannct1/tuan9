@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
@@ -20,6 +21,7 @@ import java.util.Calendar
 import java.util.Locale
 
 class AddNoteActivity : AppCompatActivity() {
+    var addStatus = true
     private lateinit var binding : ActivityAddNoteBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,24 +33,40 @@ class AddNoteActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val calendar = Calendar.getInstance()
-        val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        binding.tvDate.text = sdf.format(calendar.time)
+        //Tạo date dạng Long
+        val date = System.currentTimeMillis()
+        //Lấy note từ activity
+        val oldNote = IntentCompat.getParcelableExtra(intent, "note", Note::class.java)
+        //Kiểm tra note từ activity nếu khác null thì hiện lên màn hình
+        if(oldNote != null){
+            addStatus = false
+            binding.edtTitle.setText(oldNote.title)
+            binding.edtContent.setText(oldNote.content)
+        }
+            binding.tvDate.text = Note.formatDate(date)
+        //Xử lý nút save
         binding.btnSave.setOnClickListener {
-            val note = Note(binding.edtTitle.text.toString(), binding.edtContent.text.toString(), binding.tvDate.text.toString())
             val intent = Intent()
-            intent.putExtra("note", note)
+            if(addStatus){
+                val newNote = Note(binding.edtTitle.text.toString(), binding.edtContent.text.toString(), date)
+                intent.putExtra("newNote", newNote)
+            }
+            else{
+                val note = oldNote?.copy(title = binding.edtTitle.text.toString(), content = binding.edtContent.text.toString(), date = date)
+                intent.putExtra("noteUpdate", note)
+            }
             setResult(RESULT_OK, intent)
             finish()
         }
+        //Xử lý hiện thị khi viết title
         binding.edtTitle.setOnFocusChangeListener { view, boolean ->
             val edt = view as EditText
             if(boolean){
-                Log.d("TAA", "asdsad")
                 edt.setTypeface(null, Typeface.BOLD)
                 edt.setTextColor(Color.BLACK)
             }
         }
+        //Xử lý nút back
         binding.btnBack.setOnClickListener {
             AlertDialog.Builder(this)
                 .setMessage("Ban có chắc muốn rời khỏi chứ")
