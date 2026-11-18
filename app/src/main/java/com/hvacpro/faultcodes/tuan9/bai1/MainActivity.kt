@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), Filter {
             val data = withContext(Dispatchers.IO){
                 noteDao.getAllNote()
             }
+            list.clear()
             list.addAll(data)
             adapter.notifyDataSetChanged()
         }

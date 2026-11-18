@@ -1,16 +1,11 @@
-package com.hvacpro.faultcodes.tuan9.bai2
+package com.hvacpro.faultcodes.tuan9.bai2.adapter
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.hvacpro.faultcodes.tuan9.bai1.Note
 import com.hvacpro.faultcodes.tuan9.bai2.entity.VietTrung
+import com.hvacpro.faultcodes.tuan9.bai2.entity.buildChineseWords
 import com.hvacpro.faultcodes.tuan9.databinding.ItemRcv2Binding
-import com.hvacpro.faultcodes.tuan9.databinding.ItemRcvBinding
-import kotlin.toString
 
 class Adapter(private val list: MutableList<VietTrung>,
               private val onClick: (VietTrung)-> Unit,
@@ -43,7 +38,7 @@ class Adapter(private val list: MutableList<VietTrung>,
     override fun onBindViewHolder(holder: VH, position: Int) {
         val vietTrung = list[position]
         holder.title.text = vietTrung.word
-        holder.content.text = vietTrung.content
+        holder.content.text = vietTrung.content?.let{buildChineseWords(it)}
     }
 
 }

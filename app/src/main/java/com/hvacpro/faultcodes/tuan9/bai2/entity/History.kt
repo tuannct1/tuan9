@@ -6,7 +6,7 @@ import androidx.room3.PrimaryKey
 
 @Entity(tableName ="history")
 data class History(@PrimaryKey(autoGenerate = true) @ColumnInfo( name = "_id")val id: Int = 0,
-                   @ColumnInfo(name = "wordid")var wordDid: String,
-                   @ColumnInfo(name = "viewnumber")var viewNumber: String,
-                   @ColumnInfo(name = "language")var language: String) {
+                   @ColumnInfo(name = "wordid")var wordDid: Int?,
+                   @ColumnInfo(name = "viewnumber", defaultValue = "0")var viewNumber: Int?,
+                   @ColumnInfo(name = "language")var language: String? = "vi") {
 }
