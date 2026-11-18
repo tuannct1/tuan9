@@ -64,13 +64,6 @@ class MainActivity : AppCompatActivity() {
                 before: Int,
                 count: Int
             ) {
-            }
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
                 val key = s.toString()
                 lifecycleScope.launch {
                     val list = withContext(Dispatchers.IO){
@@ -80,6 +73,13 @@ class MainActivity : AppCompatActivity() {
                     ds.addAll(list)
                     adapter.notifyDataSetChanged()
                 }
+            }
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
         })

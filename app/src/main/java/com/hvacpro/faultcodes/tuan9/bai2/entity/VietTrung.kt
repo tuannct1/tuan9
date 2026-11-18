@@ -27,8 +27,19 @@ private fun cleanContent(raw: String): String =
     raw.replace(junkTag, "\n")
         .replace("&nbsp;", " ")
 
-/** Lọc ĐÁP ÁN (từ Hán tương đương) rồi ghép thành 1 chuỗi, vd: "哀悼; 悲悼; 志哀" */
-fun buildChineseWords(content: String, max: Int = 3, separator: String = "; "): String =
+fun buildChineseWords2(text: String): String{
+    val a = text.split("☆")
+    val b = a.drop(1)
+    val ds = mutableListOf<String>()
+    for(tt in b){
+        val head = tt.substringBefore("<")       // 2. phần trước dấu <
+        for (m in cjk.findAll(head)) {           // 3. tìm các cụm chữ Hán trong đó
+            ds.add(m.value)                      // 4. thêm từng cụm vào danh sách
+        }
+    }
+    return ds.joinToString("; ")
+}
+fun buildChineseWords(content: String, max: Int = 4, separator: String = "; "): String =
     cleanContent(content)
         .split("☆")
         .drop(1)
@@ -44,8 +55,10 @@ fun buildChineseWords(content: String, max: Int = 3, separator: String = "; "): 
         .distinct()
         .take(max)
         .joinToString(separator)
+fun buildMeanings2(content: String) : String{
 
-/** Lọc GIẢI THÍCH rồi ghép thành 1 chuỗi, vd: "悲痛地追念(死者) / 伤心悼念" */
+    return content
+}
 fun buildMeanings(content: String, max: Int = 3, separator: String = " / "): String =
     cleanContent(content)
         .split("☆")
@@ -61,6 +74,7 @@ fun buildMeanings(content: String, max: Int = 3, separator: String = " / "): Str
         }
         .take(max)
         .joinToString(separator)
-fun splitHanCharacters(text: String): List<String>{
-    return text.split(';', '；', ',', '，', '、')
+fun splitHanCharacters(text: String): List<String> {
+    return text.filter { it.isLetter() && it.code in 0x4E00..0x9FFF }
+        .map { it.toString() }
 }

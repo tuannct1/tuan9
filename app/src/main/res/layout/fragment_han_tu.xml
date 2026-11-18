@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".bai2.fragment.HanTuFragment"
+    android:layout_margin="8dp"
+    android:background="#4CAF50"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+    <TextView
+        android:id="@+id/tvHan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Han"
+        android:textColor="#DBDBDB"
+        android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/tvViet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Viet"
+        android:textColor="#DBDBDB"
+        android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/tvPinyin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pinyin"
+        android:textColor="#DBDBDB"
+        android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/tvMean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mean"
+        android:textColor="#DBDBDB" />
+
+</LinearLayout>

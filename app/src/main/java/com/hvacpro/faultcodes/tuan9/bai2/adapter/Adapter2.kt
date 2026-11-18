@@ -11,7 +11,7 @@ class Adapter2(private val list: MutableList<String>,
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): Adapter2.VH {
+    ): VH {
         val binding = ItemRcvHanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return VH(binding)
     }

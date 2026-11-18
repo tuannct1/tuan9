@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hvacpro.faultcodes.tuan9.bai2.entity.VietTrung
 import com.hvacpro.faultcodes.tuan9.bai2.entity.buildChineseWords
+import com.hvacpro.faultcodes.tuan9.bai2.entity.buildChineseWords2
 import com.hvacpro.faultcodes.tuan9.databinding.ItemRcv2Binding
 
 class Adapter(private val list: MutableList<VietTrung>,
@@ -38,7 +39,7 @@ class Adapter(private val list: MutableList<VietTrung>,
     override fun onBindViewHolder(holder: VH, position: Int) {
         val vietTrung = list[position]
         holder.title.text = vietTrung.word
-        holder.content.text = vietTrung.content?.let{buildChineseWords(it)}
+        holder.content.text = vietTrung.content?.let{buildChineseWords2(it)}
     }
 
 }
