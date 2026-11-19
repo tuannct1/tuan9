@@ -23,7 +23,7 @@ data class HanTu(@PrimaryKey(autoGenerate = true) @ColumnInfo( name = "_id")val 
 }
 fun splitEntries(text: String): String {
     return text
-        .split("\\n", "\n", "\\t", "\t")   // tách theo cả dạng chữ lẫn ký tự thật
+        .split("\\n", "\n", "\\t", "\t")
         .map { it.trim() }
         .filter { it.isNotEmpty() }
         .joinToString("\n")

@@ -21,60 +21,36 @@ data class VietTrung(@PrimaryKey(autoGenerate = true) @ColumnInfo( name = "_id")
                   ): Parcelable {
 }
 private val junkTag = Regex("""</?[A-Za-z][^>]*>""")
+
 private val cjk = Regex("[\\u4E00-\\u9FFF]")
+private val nonCjk = Regex("[^\\u4E00-\\u9FFF]")
 
-private fun cleanContent(raw: String): String =
-    raw.replace(junkTag, "\n")
+private fun cleanContent(text: String): String =
+    text.replace("<br>", "\n")
+        .replace("<y>", "\n")
+        .replace(junkTag, "")
         .replace("&nbsp;", " ")
+        .replace(Regex("[ \\t]+"), " ")
+        .replace(Regex("\\n\\s*\\n+"), "\n")
+        .trim()
 
-fun buildChineseWords2(text: String): String{
+fun buildChineseWords(text: String): String{
     val a = text.split("☆")
     val b = a.drop(1)
     val ds = mutableListOf<String>()
     for(tt in b){
-        val head = tt.substringBefore("<")       // 2. phần trước dấu <
-        for (m in cjk.findAll(head)) {           // 3. tìm các cụm chữ Hán trong đó
-            ds.add(m.value)                      // 4. thêm từng cụm vào danh sách
-        }
+        val x = tt.substringBefore("<").replace(nonCjk, "")
+        ds.add(x)
     }
     return ds.joinToString("; ")
 }
-fun buildChineseWords(content: String, max: Int = 4, separator: String = "; "): String =
-    cleanContent(content)
-        .split("☆")
-        .drop(1)
-        .flatMap { part ->
-            part.lineSequence().first()
-                .substringBefore("<")
-                .substringBefore("(")
-                .substringBefore("（")
-                .split(';', '；', ',', '，')          // tách "呀; 哑" thành từng từ
-                .map { it.trim().trimEnd('。', '.', ' ') }
-        }
-        .filter { cjk.containsMatchIn(it) }
-        .distinct()
-        .take(max)
-        .joinToString(separator)
-fun buildMeanings2(content: String) : String{
-
-    return content
+fun buildMeanings2(content: String): String{
+    val cleaned = cleanContent(content)
+    val a = cleaned.split("☆")
+    val b = a.drop(1).map { it.trim() }
+    return b.joinToString ("\n")
 }
-fun buildMeanings(content: String, max: Int = 3, separator: String = " / "): String =
-    cleanContent(content)
-        .split("☆")
-        .drop(1)
-        .mapNotNull { part ->
-            val line = part.lineSequence().first()
-            if (!line.contains("<")) return@mapNotNull null
-            line.substringAfter("<")
-                .substringBefore(">")
-                .trim()
-                .trimEnd('。', ';', ',', '.', ' ')
-                .takeIf { it.isNotEmpty() && cjk.containsMatchIn(it) }
-        }
-        .take(max)
-        .joinToString(separator)
 fun splitHanCharacters(text: String): List<String> {
-    return text.filter { it.isLetter() && it.code in 0x4E00..0x9FFF }
+    return text.filter { it.isLetter() && cjk.containsMatchIn(it.toString()) }
         .map { it.toString() }
 }

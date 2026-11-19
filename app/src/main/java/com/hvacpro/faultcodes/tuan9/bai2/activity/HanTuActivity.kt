@@ -15,8 +15,7 @@ import com.hvacpro.faultcodes.tuan9.bai2.HanVietDatabase
 import com.hvacpro.faultcodes.tuan9.bai2.adapter.Adapter2
 import com.hvacpro.faultcodes.tuan9.bai2.entity.VietTrung
 import com.hvacpro.faultcodes.tuan9.bai2.entity.buildChineseWords
-import com.hvacpro.faultcodes.tuan9.bai2.entity.buildChineseWords2
-import com.hvacpro.faultcodes.tuan9.bai2.entity.buildMeanings
+import com.hvacpro.faultcodes.tuan9.bai2.entity.buildMeanings2
 import com.hvacpro.faultcodes.tuan9.bai2.entity.splitHanCharacters
 import com.hvacpro.faultcodes.tuan9.bai2.fragment.HanTuFragment
 import com.hvacpro.faultcodes.tuan9.databinding.ActivityHanTuBinding
@@ -49,8 +48,8 @@ class HanTuActivity : AppCompatActivity() {
         //Lấy dữ liệu từ intent
         val vietTrung = IntentCompat.getParcelableExtra(intent, "vietTrung", VietTrung::class.java)
         binding.tvWord.text = vietTrung!!.word
-        binding.tvHan.text = vietTrung.content?.let{ buildChineseWords2(it) }
-        binding.tvEx.text = vietTrung.content?.let{ buildMeanings(it) }
+        binding.tvHan.text = vietTrung.content?.let{ buildChineseWords(it) }
+        binding.tvEx.text = vietTrung.content?.let{ buildMeanings2(it) }
         //Tách các từ đơn
         val listHanTu = splitHanCharacters( binding.tvHan.text.toString()).toMutableList()
         val adapter = Adapter2(listHanTu,::onClick)
