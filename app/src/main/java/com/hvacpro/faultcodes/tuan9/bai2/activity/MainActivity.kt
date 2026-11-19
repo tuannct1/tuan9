@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room3.Room
 import androidx.sqlite.driver.AndroidSQLiteDriver
 import com.hvacpro.faultcodes.tuan9.R
-import com.hvacpro.faultcodes.tuan9.bai2.HanVietDatabase
+import com.hvacpro.faultcodes.tuan9.bai2.activity.database.HanVietDatabase
 import com.hvacpro.faultcodes.tuan9.bai2.adapter.Adapter
 import com.hvacpro.faultcodes.tuan9.bai2.entity.VietTrung
 import com.hvacpro.faultcodes.tuan9.databinding.ActivityMain2Binding

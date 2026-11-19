@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), Filter {
             .setDriver(AndroidSQLiteDriver())
             .build()
         noteDao = db.noteDao()
-        //Tạo list
+        //Tạo list thẻ
         lifecycleScope.launch {
             val data = withContext(Dispatchers.IO){
                 noteDao.getAllNote()
