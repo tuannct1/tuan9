@@ -47,4 +47,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+    implementation("androidx.sqlite:sqlite-bundled:2.7.1")
 }

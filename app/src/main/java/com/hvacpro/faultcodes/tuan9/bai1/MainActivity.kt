@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room3.Room
 import androidx.sqlite.driver.AndroidSQLiteDriver
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.hvacpro.faultcodes.tuan9.R
 import com.hvacpro.faultcodes.tuan9.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), Filter {
         }
         //Tạo database
         val db = Room.databaseBuilder<AppDatabase>(this, "noteDatabase")
-            .setDriver(AndroidSQLiteDriver())
+            .setDriver(BundledSQLiteDriver())
             .build()
         noteDao = db.noteDao()
         //Tạo list thẻ

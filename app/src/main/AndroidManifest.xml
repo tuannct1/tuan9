@@ -33,30 +33,30 @@
             android:name=".bai2.activity.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".bai2.activity.HanTuActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".bai3.MainActivity"
+            android:name=".bai4.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
         <activity
-            android:name=".bai3.AddNoteActivity"
+            android:name=".bai4.AddNoteActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
         </activity>

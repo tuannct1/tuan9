@@ -1,4 +1,4 @@
-package com.hvacpro.faultcodes.tuan9.bai3
+package com.hvacpro.faultcodes.tuan9.bai4
 
 import android.content.ContentValues
 import android.content.Context
@@ -26,12 +26,10 @@ class NoteDbHelper(context: Context) : SQLiteOpenHelper(context, "noteDatabase",
         """.trimIndent()
         db.execSQL(createTable)
     }
-
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
     }
-
     fun insert(note: Note): Long {
         val values = ContentValues().apply {
             put(COL_TITLE, note.title)

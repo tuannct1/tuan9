@@ -2,13 +2,11 @@ package com.hvacpro.faultcodes.tuan9.bai3
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.hvacpro.faultcodes.tuan9.R
+import com.hvacpro.faultcodes.tuan9.bai4.Filter
 
 class MenuDialogFragment : DialogFragment() {
     private lateinit var listener: Filter

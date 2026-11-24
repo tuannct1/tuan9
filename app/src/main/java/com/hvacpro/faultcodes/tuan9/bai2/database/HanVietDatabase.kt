@@ -1,4 +1,4 @@
-package com.hvacpro.faultcodes.tuan9.bai2.activity.database
+package com.hvacpro.faultcodes.tuan9.bai2.database
 
 import androidx.room3.Database
 import androidx.room3.RoomDatabase

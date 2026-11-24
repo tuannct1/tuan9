@@ -8,48 +8,90 @@
     android:layout_height="match_parent"
     tools:context=".bai2.activity.HanTuActivity"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="#AFAFAF">
+    android:background="#F7F4EE">
+
+    <!-- Thanh tiêu đề -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#BC0909">
+        android:layout_height="56dp"
+        android:background="#BC0909"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="8dp">
+
         <ImageView
             android:id="@+id/imgBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/back_svgrepo_com"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/back_svgrepo_com"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#FFFFFF" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/tvWord"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="word"
-        android:textSize="32sp"/>
-    <TextView
-        android:id="@+id/tvHan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="han tu"
-        android:textSize="32sp"
-        android:textColor="#009688"/>
-    <TextView
-        android:id="@+id/tvEx"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Giải thích nghĩa"/>
-    <WebView
-        android:id="@+id/wv"
+
+    <!-- Thẻ từ vựng -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="#FFF9DF"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        app:strokeColor="#F2E6B1"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="20dp">
+
+            <TextView
+                android:id="@+id/tvWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="word"
+                android:textColor="#2B2B2B"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvHan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="han tu"
+                android:textColor="#009688"
+                android:textSize="32sp" />
+
+            <TextView
+                android:id="@+id/tvEx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="Giải thích nghĩa"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
         android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:paddingHorizontal="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
     <FrameLayout
         android:id="@+id/frmLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp" />
 </LinearLayout>

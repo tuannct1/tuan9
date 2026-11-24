@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -12,13 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.widget.doOnTextChanged
 import com.hvacpro.faultcodes.tuan9.R
+import com.hvacpro.faultcodes.tuan9.bai4.Note
 import com.hvacpro.faultcodes.tuan9.databinding.ActivityAddNoteBinding
-import java.net.Proxy
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class AddNoteActivity : AppCompatActivity() {
     var addStatus = true
@@ -48,7 +43,8 @@ class AddNoteActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val intent = Intent()
             if(addStatus){
-                val newNote = Note(binding.edtTitle.text.toString(), binding.edtContent.text.toString(), date)
+                val newNote =
+                    Note(binding.edtTitle.text.toString(), binding.edtContent.text.toString(), date)
                 intent.putExtra("newNote", newNote)
             }
             else{

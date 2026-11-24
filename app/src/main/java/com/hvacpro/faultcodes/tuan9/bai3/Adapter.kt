@@ -1,13 +1,11 @@
 package com.hvacpro.faultcodes.tuan9.bai3
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hvacpro.faultcodes.tuan9.bai4.Note
 import com.hvacpro.faultcodes.tuan9.databinding.ItemRcvBinding
-import kotlin.toString
 
 class Adapter(private val list: MutableList<Note>,
               private val onClick: (Note)-> Unit,
